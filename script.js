@@ -1,6 +1,6 @@
 async function submitQuestion() {
     const question = document.getElementById('question').value;
-    const responseParagraph = document.getElementById('response');
+    document.getElementById('response').innerText = data.answer;
     
     try {
         const response = await fetch('YOUR_BACKEND_ENDPOINT', {
