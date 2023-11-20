@@ -33,11 +33,32 @@ async function submitQuestion() {
 }
 
 function displayConversations() {
-    let content = "data:text/csv;charset=utf-8,Question,Answer\n";
-    conversationHistory.forEach(({ question, answer }) => {
-        content += `"${question.replace(/"/g, '""')}","${answer.replace(/"/g, '""')}"\n`;
-    });
+    const existingPanel = document.getElementById('conversation-panel');
+    if (existingPanel) {
+        existingPanel.style.display = 'block'; // Show the panel if it already exists
+    } else {
+        // Create the panel
+        const panel = document.createElement('div');
+        panel.id = 'conversation-panel';
+        panel.style.cssText = `
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 300px;
+            height: 100vh;
+            background-color: white;
+            box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            overflow-y: auto;
+            display: block;
+        `;
 
-    const displayWindow = window.open();
-    displayWindow.document.write("<pre>" + content + "</pre>");
+        let content = '<h3>Conversations</h3>';
+        conversationHistory.forEach(({ question, answer }) => {
+            content += `<p><strong>Q:</strong> ${question}<br><strong>A:</strong> ${answer}</p>`;
+        });
+
+        panel.innerHTML = content;
+        document.body.appendChild(panel);
+    }
 }
